@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\" -Directory)",
+      "Bash(Select-Object Name)",
+      "PowerShell(head *)",
+      "Bash(git ls-tree *)",
+      "Bash(git config *)"
+    ]
+  }
+}

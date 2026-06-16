@@ -2,14 +2,18 @@
 /shelf/
 /workspace.xml
 # Rider에서 무시된 파일
-/modules.xml
-/contentModel.xml
-/.idea.MathTeamProject.iml
+
 /projectSettingsUpdater.xml
 # 에디터 기반 HTTP 클라이언트 요청
 /httpRequests/
 # 쿼리 파일을 포함한 무시된 디폴트 폴더
 /queries/
+/.idea.MathTeamProject.iml
+/contentModel.xml
+/projectSettingsUpdater.xml
+/modules.xml
+# 에디터 기반 HTTP 클라이언트 요청
+/httpRequests/
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml

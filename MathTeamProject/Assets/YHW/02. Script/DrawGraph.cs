@@ -13,8 +13,12 @@ public class DrawGraph : MonoBehaviour
     [Header("Graph Settings")]
     public int resolution = 100; 
     public float graphWidth = 10f;
+    [Header("Graph Type")] 
+    public bool type;
     
     private LineRenderer lineRenderer;
+    private bool  isBallMoving = false;
+    private float timer = 0f;
 
     private void Awake()
     {
@@ -33,7 +37,10 @@ public class DrawGraph : MonoBehaviour
         
         DrawGraphScene(amplitude, frequency);
         
-        MoveBall(amplitude, frequency);
+        if (isBallMoving)
+        {
+            MoveBall(amplitude, frequency);
+        }
     }
 
     private void DrawGraphScene(float amplitude, float frequency)
@@ -41,22 +48,52 @@ public class DrawGraph : MonoBehaviour
         for (int i = 0; i < resolution; i++)
         {
             float x = ((float)i / (resolution - 1)) * graphWidth - (graphWidth / 2f);
-            
-            float y = amplitude * Mathf.Sin(frequency * x);
+            float y;
+            if (type == true)
+                 y = amplitude * Mathf.Sin(frequency * x);
+            else
+                y = amplitude * Mathf.Cos(frequency * x);
             
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
         }
     }
-    
+
     private void MoveBall(float amplitude, float frequency)
     {
         if (ball != null)
         {
-            float x = Mathf.Repeat(Time.time * ballSpeed, graphWidth) - (graphWidth / 2f);
-            
-            float y = amplitude * Mathf.Sin(frequency * x);
-            
+            timer += Time.deltaTime * ballSpeed;
+
+            float x = timer - (graphWidth / 2f);
+
+            if (x >= (graphWidth / 2f))
+            {
+                isBallMoving = false;
+                ball.SetActive(false);
+                return;
+            }
+
+            float y = type ? amplitude * Mathf.Sin(frequency * x) : amplitude * Mathf.Cos(frequency * x);
+
             ball.transform.position = new Vector3(x, y, 0);
         }
+    }
+
+    public void ShotBall()
+    {
+        if (!isBallMoving)
+        {
+            isBallMoving = true;
+            timer = 0f;
+            ball.SetActive(true);
+        }
+    }
+
+    public void ChangeType(int index)
+    {
+        if (index == 0)
+            type = true;
+        else if (index == 1)
+            type = false;
     }
 }

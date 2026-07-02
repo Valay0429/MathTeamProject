@@ -33,8 +33,7 @@ public class BuffBoxSpawner : MonoBehaviour
         if (Keyboard.current.tKey.wasPressedThisFrame)
             SpawnBuffBoxes();
     }
-
-    /// <summary>맵에 버프 박스를 랜덤 개수/위치로 배치합니다.</summary>
+    
     public void SpawnBuffBoxes()
     {
         ClearBuffBoxes();
@@ -52,8 +51,7 @@ public class BuffBoxSpawner : MonoBehaviour
         else
             SpawnInArea(count);
     }
-
-    /// <summary>스폰된 박스를 모두 제거합니다.</summary>
+    
     public void ClearBuffBoxes()
     {
         foreach (GameObject box in activeBoxes)
@@ -63,8 +61,6 @@ public class BuffBoxSpawner : MonoBehaviour
         activeBoxes.Clear();
         placedPositions.Clear();
     }
-
-    // ── 내부 메서드 ──────────────────────────────────────────────
 
     private void SpawnAtPoints(int count)
     {

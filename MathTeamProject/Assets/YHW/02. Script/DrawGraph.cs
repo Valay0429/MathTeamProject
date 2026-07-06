@@ -1,4 +1,4 @@
-using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +15,8 @@ public class DrawGraph : MonoBehaviour
     public float graphWidth = 10f;
     [Header("Graph Type")] 
     public bool type;
+
+    private UiInteractable _uiInteractable;
     
     private LineRenderer lineRenderer;
     private bool  isBallMoving = false;
@@ -23,6 +25,7 @@ public class DrawGraph : MonoBehaviour
     private void Awake()
     {
         lineRenderer = GetComponent<LineRenderer>();
+        _uiInteractable = GetComponent<UiInteractable>();
     }
 
     private void Start()
@@ -70,6 +73,7 @@ public class DrawGraph : MonoBehaviour
             {
                 isBallMoving = false;
                 ball.SetActive(false);
+                _uiInteractable.SetUiInteractable(true);
                 return;
             }
 
@@ -86,14 +90,12 @@ public class DrawGraph : MonoBehaviour
             isBallMoving = true;
             timer = 0f;
             ball.SetActive(true);
+            _uiInteractable.SetUiInteractable(false);
         }
     }
 
-    public void ChangeType(int index)
+    public void ChangeType(bool type)
     {
-        if (index == 0)
-            type = true;
-        else if (index == 1)
-            type = false;
+        this.type = type;
     }
 }

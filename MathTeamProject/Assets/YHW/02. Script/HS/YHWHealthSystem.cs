@@ -5,7 +5,7 @@ using UnityEngine.InputSystem.Processors;
 public class YHWHealthSystem : MonoBehaviour
 {
     [SerializeField] private int maxHp;
-    private int currentHp;
+    [SerializeField] private int currentHp;
 
     private void Start()
     {

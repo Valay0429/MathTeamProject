@@ -74,6 +74,7 @@ public class DrawGraph : MonoBehaviour
                 isBallMoving = false;
                 ball.SetActive(false);
                 _uiInteractable.SetUiInteractable(true);
+                TurnManager.Instance.EndTurn();
                 return;
             }
 

@@ -21,6 +21,6 @@ public class YHWHealthSystem : MonoBehaviour
 
     private void Dead()
     {
-        gameObject.SetActive(false);
+        Debug.Log("아프다");
     }
 }

@@ -15,7 +15,7 @@ namespace YHW._02._Script.FT
  
     [Header("스폰 위치 — 스폰 포인트가 없으면 콜라이더 영역 랜덤 사용")]
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private Collider2D spawnArea; // 이 콜라이더 내부에서만 랜덤 스폰
+    [SerializeField] private Collider2D[] spawnArea; // 이 콜라이더 내부에서만 랜덤 스폰
  
     [Header("버프 풀 (BuffSO 에셋을 여기에 등록)")]
     [SerializeField] private BuffSO[] buffPool;
@@ -84,9 +84,6 @@ namespace YHW._02._Script.FT
             return;
         }
  
-        Bounds bounds = spawnArea.bounds; // 콜라이더를 감싸는 AABB — 이 범위 내에서 후보 좌표를 뽑고,
-                                           // 실제로 콜라이더 모양(원형/폴리곤 등) 안에 있는지는 OverlapPoint로 검증한다.
- 
         for (int i = 0; i < count; i++)
         {
             Vector3 pos = Vector3.zero;
@@ -94,13 +91,17 @@ namespace YHW._02._Script.FT
  
             for (int attempt = 0; attempt < maxPlacementAttempts; attempt++)
             {
+                int randomIndex = Random.Range(0, spawnArea.Length);
+                Collider2D area = spawnArea[randomIndex];
+                Bounds bounds = area.bounds;
+                
                 Vector3 candidate = new Vector3(
                     Random.Range(bounds.min.x, bounds.max.x),
                     Random.Range(bounds.min.y, bounds.max.y),
                     0f);
  
                 // 콜라이더 형태 내부인지 확인 (사각형이 아닌 콜라이더도 정확히 걸러짐)
-                if (!spawnArea.OverlapPoint(candidate)) continue;
+                if (!area.OverlapPoint(candidate)) continue;
  
                 if (IsTooClose(candidate)) continue;
  

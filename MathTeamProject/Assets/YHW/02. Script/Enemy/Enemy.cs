@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using YHW;
 
 public class Enemy : MonoBehaviour
@@ -40,6 +41,11 @@ public class Enemy : MonoBehaviour
 
     void ChangeEnemy()
     {
+        if (index == 4)
+        {
+            SceneManager.LoadScene("End");
+            return;
+        }
         index++;
         attackPower = powers[index];
         _healthSystem.maxHp = hp[index];

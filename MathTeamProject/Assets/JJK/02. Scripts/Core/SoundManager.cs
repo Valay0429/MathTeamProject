@@ -105,5 +105,6 @@ public class SoundManager : MonoSingleton<SoundManager>
     public enum BGM
     {
         TitleScene, 
-        GameScene
+        GameScene,
+        EndingScene
     }

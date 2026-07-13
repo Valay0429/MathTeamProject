@@ -35,13 +35,14 @@ public class DrawGraph : MonoBehaviour
     private class ActiveBall
     {
         public GameObject obj;
-        public float timer; // 이 공만의 진행도(=x + graphWidth/2)
+        public float timer; // 이 공만의 진행도(=위상, x + graphWidth/2)
     }
 
     private readonly Queue<GameObject> ballPool = new Queue<GameObject>();
     private readonly List<ActiveBall> activeBalls = new List<ActiveBall>();
 
     private bool IsBallMoving => activeBalls.Count > 0;
+    private bool wasMoving = false;
 
     private void Awake()
     {
@@ -56,21 +57,7 @@ public class DrawGraph : MonoBehaviour
         amplitudeSlider.maxValue = hardMax;
         frequencySlider.maxValue = hardMax;
 
-        amplitudeSlider.onValueChanged.AddListener(OnAmplitudeChanged);
-        frequencySlider.onValueChanged.AddListener(OnFrequencyChanged);
-
-        OnAmplitudeChanged(amplitudeSlider.value);
-        OnFrequencyChanged(frequencySlider.value);
-
         InitPool();
-    }
-
-    private void OnDestroy()
-    {
-        if (amplitudeSlider != null)
-            amplitudeSlider.onValueChanged.RemoveListener(OnAmplitudeChanged);
-        if (frequencySlider != null)
-            frequencySlider.onValueChanged.RemoveListener(OnFrequencyChanged);
     }
 
     private void InitPool()
@@ -105,12 +92,21 @@ public class DrawGraph : MonoBehaviour
         UpdateBalls(amplitude, frequency);
     }
 
+    // 위상(phase)은 항상 0부터 시작, 실제 그려지는 위치(x)만 중앙 정렬
+    private float EvaluateY(float t, float amplitude, float frequency)
+    {
+        return type
+            ? amplitude * Mathf.Sin(frequency * t)          // sin: 0에서 시작, 위아래 진동
+            : amplitude * (Mathf.Cos(frequency * t) - 1f);  // cos: 0에서 시작, 아래로만 진동
+    }
+
     private void DrawGraphScene(float amplitude, float frequency)
     {
         for (int i = 0; i < resolution; i++)
         {
-            float x = ((float)i / (resolution - 1)) * graphWidth - (graphWidth / 2f);
-            float y = type ? amplitude * Mathf.Sin(frequency * x) : amplitude * Mathf.Cos(frequency * x);
+            float t = ((float)i / (resolution - 1)) * graphWidth; // 위상 전용, 항상 0부터 시작
+            float x = t - (graphWidth / 2f);                       // 실제 그려질 위치
+            float y = EvaluateY(t, amplitude, frequency);
             lineRenderer.SetPosition(i, new Vector3(x, y, 0));
         }
     }
@@ -123,7 +119,8 @@ public class DrawGraph : MonoBehaviour
             ActiveBall b = activeBalls[i];
             b.timer += Time.deltaTime * ballSpeed;
 
-            float x = b.timer - (graphWidth / 2f);
+            float t = b.timer;               // 위상
+            float x = t - (graphWidth / 2f); // 실제 위치
 
             if (x >= (graphWidth / 2f))
             {
@@ -132,7 +129,7 @@ public class DrawGraph : MonoBehaviour
                 continue;
             }
 
-            float y = type ? amplitude * Mathf.Sin(frequency * x) : amplitude * Mathf.Cos(frequency * x);
+            float y = EvaluateY(t, amplitude, frequency);
             b.obj.transform.position = new Vector3(x, y, 0);
         }
 
@@ -144,8 +141,6 @@ public class DrawGraph : MonoBehaviour
             TurnManager.Instance.EndTurn();
         }
     }
-
-    private bool wasMoving = false;
 
     // 최초 발사
     public void ShotBall()
@@ -181,8 +176,9 @@ public class DrawGraph : MonoBehaviour
 
         float amplitude = amplitudeSlider.value;
         float frequency = frequencySlider.value;
-        float x = startTimer - (graphWidth / 2f);
-        float y = type ? amplitude * Mathf.Sin(frequency * x) : amplitude * Mathf.Cos(frequency * x);
+        float t = startTimer;
+        float x = t - (graphWidth / 2f);
+        float y = EvaluateY(t, amplitude, frequency);
         obj.transform.position = new Vector3(x, y, 0);
 
         activeBalls.Add(new ActiveBall { obj = obj, timer = startTimer });
@@ -197,24 +193,6 @@ public class DrawGraph : MonoBehaviour
                 rearmost = activeBalls[i];
         }
         return rearmost;
-    }
-
-    private void OnAmplitudeChanged(float value)
-    {
-        bool isAtMax = value >= hardMax - 0.001f;
-        float newMax = isAtMax ? halfMax : hardMax;
-        if (Mathf.Approximately(frequencySlider.maxValue, newMax)) return;
-        frequencySlider.maxValue = newMax;
-        if (frequencySlider.value > newMax) frequencySlider.value = newMax;
-    }
-
-    private void OnFrequencyChanged(float value)
-    {
-        bool isAtMax = value >= hardMax - 0.001f;
-        float newMax = isAtMax ? halfMax : hardMax;
-        if (Mathf.Approximately(amplitudeSlider.maxValue, newMax)) return;
-        amplitudeSlider.maxValue = newMax;
-        if (amplitudeSlider.value > newMax) amplitudeSlider.value = newMax;
     }
 
     public void ChangeType(bool type)

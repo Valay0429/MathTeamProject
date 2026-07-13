@@ -22,14 +22,7 @@ public class SettingsPanelOpener : MonoBehaviour
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        if (settingsPanelPrefab != null) SpawnPanel();
-    }
-
-    /// <summary>코드로 생성 후 프리팹을 주입할 때 호출합니다.</summary>
-    public void Initialize(SettingsPanel prefab)
-    {
-        settingsPanelPrefab = prefab;
-        if (panel == null && settingsPanelPrefab != null) SpawnPanel();
+        SpawnPanel();
     }
 
     void SpawnPanel()

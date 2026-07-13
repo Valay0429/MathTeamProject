@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class DamageTextPool : MonoBehaviour
 {
-    public static DamageTextPool Instance { get; private set; }
 
     [Header("풀 설정")]
     [SerializeField] private DamageText damageTextPrefab;
@@ -19,12 +18,6 @@ public class DamageTextPool : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
 
         if (poolParent == null)
             poolParent = transform;
@@ -39,7 +32,7 @@ public class DamageTextPool : MonoBehaviour
 
     private DamageText CreateInstance()
     {
-        DamageText instance = Instantiate(damageTextPrefab, poolParent);
+        DamageText instance = Instantiate(damageTextPrefab, poolParent, true);
         instance.Init(this);
         return instance;
     }

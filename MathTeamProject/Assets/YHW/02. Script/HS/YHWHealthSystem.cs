@@ -4,8 +4,9 @@ using UnityEngine.InputSystem.Processors;
 
 public class YHWHealthSystem : MonoBehaviour
 {
-    [SerializeField] private int maxHp;
-    [SerializeField] private int currentHp;
+    [SerializeField] public int maxHp;
+    [SerializeField] public int currentHp;
+    public event Action OnDead;
 
     private void Start()
     {
@@ -21,6 +22,11 @@ public class YHWHealthSystem : MonoBehaviour
 
     private void Dead()
     {
-        Debug.Log("아프다");
+        OnDead?.Invoke();
+    }
+    
+    public void SetMaxHp()
+    {
+        currentHp = maxHp;
     }
 }

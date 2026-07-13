@@ -39,7 +39,7 @@ public class DamageTextPool : MonoBehaviour
 
     private DamageText CreateInstance()
     {
-        DamageText instance = Instantiate(damageTextPrefab, poolParent);
+        DamageText instance = Instantiate(damageTextPrefab, poolParent, true);
         instance.Init(this);
         return instance;
     }

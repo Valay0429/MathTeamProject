@@ -47,6 +47,9 @@ public class TitleSceneManager : MonoBehaviour
     [Header("씬 이름 (Build Settings 에 추가된 씬)")]
     [SerializeField] string gameSceneName = "JJK_Scene";
 
+    [Header("설정창 프리팹 (SettingsPanelOpener가 씬에 없을 때 자동 생성)")]
+    [SerializeField] SettingsPanel settingsPanelPrefab;
+
     // ── Private references ─────────────────────────────────────────────────────
     Canvas            mainCanvas;
     RectTransform     menuLayer;
@@ -65,6 +68,7 @@ public class TitleSceneManager : MonoBehaviour
     void Awake()
     {
         EnsureGameSettings();
+        EnsureSettingsPanelOpener();
         SetupCamera();
         SetupEventSystem();
         BuildCanvas();
@@ -89,6 +93,14 @@ public class TitleSceneManager : MonoBehaviour
     {
         if (GameSettings.Instance == null)
             new GameObject("GameSettings").AddComponent<GameSettings>();
+    }
+
+    void EnsureSettingsPanelOpener()
+    {
+        if (SettingsPanelOpener.Instance != null) return;
+        var go = new GameObject("SettingsPanelOpener");
+        var opener = go.AddComponent<SettingsPanelOpener>();
+        opener.Initialize(settingsPanelPrefab);
     }
 
     void SetupCamera()

@@ -161,6 +161,7 @@ MonoBehaviour:
   buttonFontSize: 27
   versionFontSize: 14
   gameSceneName: JJK_Scene
+  settingsPanelPrefab: {fileID: 201581895662694815, guid: ae0dd6c1e2b838246b05aeb84069e62f, type: 3}
 --- !u!4 &41332176
 Transform:
   m_ObjectHideFlags: 0

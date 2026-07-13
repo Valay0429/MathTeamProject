@@ -160,7 +160,7 @@ MonoBehaviour:
   subtitleFontSize: 22
   buttonFontSize: 27
   versionFontSize: 14
-  gameSceneName: JJK_Scene
+  gameSceneName: GameScene
 --- !u!4 &41332176
 Transform:
   m_ObjectHideFlags: 0

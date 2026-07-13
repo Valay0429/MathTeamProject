@@ -36,7 +36,6 @@ public class YHWBuffBox : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Fuck");
         if (buffSO == null) return;
 
         IYHWBuffReceiver receiver = other.GetComponent<IYHWBuffReceiver>();

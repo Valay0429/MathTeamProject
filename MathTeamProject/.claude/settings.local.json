@@ -5,7 +5,14 @@
       "Bash(Select-Object Name)",
       "PowerShell(head *)",
       "Bash(git ls-tree *)",
-      "Bash(git config *)"
+      "Bash(git config *)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\Assets\\\\Scenes\" -Recurse | Select-Object -ExpandProperty FullName | ForEach-Object { $_.Replace\\(\"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\\", \"\"\\) })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\Assets\\\\YHW\" -Recurse | Select-Object -ExpandProperty FullName | ForEach-Object { $_.Replace\\(\"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\\", \"\"\\) })",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\Assets\\\\JJK\" -Recurse -File | Select-Object -ExpandProperty FullName | ForEach-Object { $_.Replace\\(\"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\\", \"\"\\) })",
+      "Bash(Get-ChildItem -Path \"C:\\\\Mygames\\\\MahtTeamProject\\\\MathTeamProject\\\\MathTeamProject\\\\Assets\" -Recurse -Directory)",
+      "Bash(Select-Object FullName)",
+      "Bash(Sort-Object)"
     ]
   }
 }
